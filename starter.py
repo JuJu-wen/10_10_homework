@@ -47,9 +47,11 @@ def build_grayscale(flat_pixels, height, width):
     # TODO A：将序列转换为数组，并重塑其形状。
     # 请删除下面的 raise NotImplementedError(...)，并在此处编写你的实现。
     # 请使用 return 返回函数要求的结果。
-    raise NotImplementedError("任务 A：请完成 build_grayscale()。")
-
-
+def build_grayscale(flat_pixels, height, width):
+        # TODO: 把一维像素列表转为(height, width) uint8 numpy数组
+        arr = np.array(flat_pixels, dtype=np.uint8)
+        arr = arr.reshape(height, width)
+        return arr  
 def edit_pixel(gray, row, col, value):
     """返回 gray 的副本，仅修改位于 (row, col) 的像素。
 
@@ -77,9 +79,14 @@ def edit_pixel(gray, row, col, value):
     # TODO B：先复制数组，再通过二维索引修改指定像素的值。
     # 请删除下面的 raise NotImplementedError(...)，并在此处编写你的实现。
     # 请使用 return 返回函数要求的结果。
-    raise NotImplementedError("任务 B：请完成 edit_pixel()。")
-
-
+def edit_pixel(gray, row, col, value):
+    """返回 gray 的副本，仅修改位于 (row, col) 的像素。
+    假设坐标有效，且 value 位于 [0, 255] 范围内。
+    """
+    # TODO
+    img_copy = gray.copy() # 复制一份，不改动原图
+    img_copy[row, col] = value
+    return img_copy
 def grayscale_to_rgb(gray):
     """返回一个新的 uint8 数组，形状为 (height, width, 3)，每个像素的 R、G、B 值相等。
 
@@ -108,9 +115,13 @@ def grayscale_to_rgb(gray):
     # TODO C：将三份灰度值沿最后一个轴组合，构建三个颜色通道。
     # 请删除下面的 raise NotImplementedError(...)，并在此处编写你的实现。
     # 请使用 return 返回函数要求的结果。
-    raise NotImplementedError("任务 C：请完成 grayscale_to_rgb()。")
-
-
+def grayscale_to_rgb(gray):
+    """
+    将灰度图转为RGB图像：每个灰度值变成三个相等的颜色通道值
+    """
+    # TODO C
+    rgb = np.stack([gray, gray, gray], axis=-1)
+    return rgb 
 def adjust_brightness(image, offset):
     """为每个像素值加上 offset，并将结果限制在 0–255 范围内。
 
@@ -131,8 +142,19 @@ def adjust_brightness(image, offset):
     # TODO D：先转换为有符号整数，再相加；限制数值范围后转换回原类型。
     # 请删除下面的 raise NotImplementedError(...)，并在此处编写你的实现。
     # 请使用 return 返回函数要求的结果。
-    raise NotImplementedError("任务 D：请完成 adjust_brightness()。")
-
+def adjust_brightness(image, offset):
+    """
+    为每个像素值加上 offset，并将结果限制在0–255范围内。
+    offset正数变亮，负数变暗
+    """
+    # TODO D
+    # 转成有符号整数，防止uint8溢出
+    new_img = image.astype(np.int16) + offset
+    # 限制在0~255
+    new_img = np.clip(new_img, 0, 255)
+    # 转回uint8图像类型
+    new_img = new_img.astype(np.uint8)
+    return new_img
 
 def check_functions():
     """已提供：独立检查四个函数，打印结果；全部通过时返回 True。
